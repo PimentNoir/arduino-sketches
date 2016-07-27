@@ -1,30 +1,15 @@
-#include <FastSPI_LED.h>
+#include <FastLED.h>
 
 #define NUM_LEDS 255
+#define DATA_PIN 2
 
-// Sometimes chipsets wire in a backwards sort of way
-struct CRGB { unsigned char b; unsigned char r; unsigned char g; };
-// struct CRGB { unsigned char r; unsigned char g; unsigned char b; };
-struct CRGB *leds;
-
-#define PIN 2
+CRGB leds[NUM_LEDS];
 
 void setup()
 {
-  FastSPI_LED.setLeds(NUM_LEDS);
-  //FastSPI_LED.setChipset(CFastSPI_LED::SPI_SM16716);
-  //FastSPI_LED.setChipset(CFastSPI_LED::SPI_TM1809);
-  //FastSPI_LED.setChipset(CFastSPI_LED::SPI_LPD6803);
-  //FastSPI_LED.setChipset(CFastSPI_LED::SPI_HL1606);
-  //FastSPI_LED.setChipset(CFastSPI_LED::SPI_595);
-  FastSPI_LED.setChipset(CFastSPI_LED::SPI_WS2811);
+ 
+  FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
 
-  FastSPI_LED.setPin(PIN);
-  
-  FastSPI_LED.init();
-  FastSPI_LED.start();
-
-  leds = (struct CRGB*)FastSPI_LED.getRGBData(); 
 }
 
 void loop() { 
@@ -37,7 +22,7 @@ void loop() {
         case 1: leds[i].g = 255; break;
         case 2: leds[i].b = 255; break;
       }
-      FastSPI_LED.show();
+      FastLED.show();
       delay(10);
     }
   }
@@ -51,7 +36,7 @@ void loop() {
         case 1: leds[i].g = 255; break;
         case 2: leds[i].b = 255; break;
       }
-      FastSPI_LED.show();
+      FastLED.show();
       delay(10);
     }
     for(int i = NUM_LEDS-1 ; i >= 0; i-- ) {
@@ -60,7 +45,7 @@ void loop() {
         case 1: leds[i].g = 0; break;
         case 2: leds[i].b = 0; break;
       }
-      FastSPI_LED.show();
+      FastLED.show();
       delay(1);
     }
   }
@@ -76,7 +61,7 @@ void loop() {
           case 2: leds[i].b = k; break;
         }
       }
-      FastSPI_LED.show();
+      FastLED.show();
       delay(3);
     }
     for(int k = 255; k >= 0; k--) { 
@@ -87,7 +72,7 @@ void loop() {
           case 2: leds[i].b = k; break;
         }
       }
-      FastSPI_LED.show();
+      FastLED.show();
       delay(3);
     }
   }
